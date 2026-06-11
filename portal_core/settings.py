@@ -38,6 +38,9 @@ LICENSE_SECRET = os.environ.get(
     'ZX2026_pK9fL3mQ7rT2vN8wB5xH4dJ0cG6sZ_aE1nY_LICENCE'
 )
 
+# رابط تحميل برنامج ZONE X (ملف التثبيت) — ضعه في .env بعد رفع الـ exe على Google Drive
+DOWNLOAD_URL = os.environ.get('ZONEX_DOWNLOAD_URL', '')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

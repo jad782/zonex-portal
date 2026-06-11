@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings as dj_settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -122,7 +123,10 @@ def thanks(request, sub_id):
 
 def status_detail(request, sub_id):
     sub = get_object_or_404(Subscription, id=sub_id)
-    return render(request, 'portal/status.html', {'sub': sub})
+    return render(request, 'portal/status.html', {
+        'sub': sub,
+        'download_url': dj_settings.DOWNLOAD_URL,
+    })
 
 
 def status_lookup(request):

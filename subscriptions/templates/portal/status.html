@@ -17,15 +17,28 @@
       <div style="color:var(--muted);font-size:13px;margin-top:14px">صالح حتى: <b>{{ sub.expires_at }}</b></div>
       <div style="color:var(--amber);font-size:12px;margin-top:10px">اسم المحل: «<b>{{ sub.store_name }}</b>»</div>
 
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px">
-        <a class="btn btn-green" style="flex:1;min-width:200px"
-           href="http://127.0.0.1:8765/login/?store_name={{ sub.store_name|urlencode }}&license_key={{ sub.license_key|urlencode }}">
-          <i class="ti ti-login"></i> دخول مباشر للنظام
+      {% if download_url %}
+      <div style="margin-top:18px">
+        <div style="color:var(--muted);font-size:12px;margin-bottom:6px;text-align:right">① حمّل البرنامج وثبّته على كمبيوتر المحل:</div>
+        <a class="btn btn-cyan" style="width:100%" href="{{ download_url }}">
+          <i class="ti ti-download"></i> تحميل برنامج ZONE X
         </a>
-        <button class="btn btn-ghost" onclick="copyAll()" style="flex:1;min-width:160px">
-          <i class="ti ti-copy"></i> نسخ الاسم والكود
-        </button>
       </div>
+      {% endif %}
+
+      <div style="margin-top:14px">
+        <div style="color:var(--muted);font-size:12px;margin-bottom:6px;text-align:right">{% if download_url %}②{% endif %} افتح النظام وادخل:</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+          <a class="btn btn-green" style="flex:1;min-width:200px"
+             href="http://127.0.0.1:8765/login/?store_name={{ sub.store_name|urlencode }}&license_key={{ sub.license_key|urlencode }}">
+            <i class="ti ti-login"></i> دخول مباشر للنظام
+          </a>
+          <button class="btn btn-ghost" onclick="copyAll()" style="flex:1;min-width:160px">
+            <i class="ti ti-copy"></i> نسخ الاسم والكود
+          </button>
+        </div>
+      </div>
+
       <div style="color:var(--muted);font-size:12px;margin-top:14px;line-height:1.8;text-align:right;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px">
         💻 <b style="color:var(--cyan)">«دخول مباشر»</b> يشتغل لما تفتح هالصفحة <b>من كمبيوتر المحل</b> (نفس الجهاز اللي عليه برنامج ZONE X مفتوح).<br>
         📱 إذا فاتح من الموبايل: اضغط <b>«نسخ الاسم والكود»</b>، وحطّهم بالبرنامج على كمبيوتر المحل يدوياً.
