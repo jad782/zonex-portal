@@ -1,0 +1,12 @@
+{% extends 'portal/base.html' %}
+{% block title %}تحميل البرنامج — ZONE X{% endblock %}
+{% block content %}
+<div style="max-width:480px;margin:50px auto;text-align:center">
+  <div style="font-size:60px">⏳</div>
+  <h2 style="font-size:24px;margin:14px 0 10px">ملف التثبيت قيد التجهيز</h2>
+  <p style="color:var(--muted);line-height:1.8">
+    رابط تحميل البرنامج لسا ما تجهّز. تواصل معنا على واتساب ونبعتلك ملف التثبيت مباشرة.
+  </p>
+  <a href="{% url 'landing' %}" class="btn btn-ghost" style="margin-top:18px">الرئيسية</a>
+</div>
+{% endblock %}

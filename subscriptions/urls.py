@@ -6,6 +6,7 @@ urlpatterns = [
     path('subscribe/', views.signup, name='signup'),
     path('pay/<int:sub_id>/', views.pay, name='pay'),
     path('thanks/<int:sub_id>/', views.thanks, name='thanks'),
+    path('download/', views.download_app, name='download_app'),
     path('status/', views.status_lookup, name='status_lookup'),
     path('status/<int:sub_id>/', views.status_detail, name='status_detail'),
 

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
 from django.conf import settings as dj_settings
+from django.http import FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -119,6 +121,21 @@ def pay(request, sub_id):
 def thanks(request, sub_id):
     sub = get_object_or_404(Subscription, id=sub_id)
     return render(request, 'portal/thanks.html', {'sub': sub})
+
+
+def download_app(request):
+    """تحميل برنامج ZONE X.
+    1) إذا في رابط خارجي (Google Drive) محدّد بـ .env → يحوّل إليه.
+    2) إذا ملف التثبيت مرفوع على السيرفر (downloads/ZONE_X_Setup.exe) → ينزّله.
+    3) غير هيك → صفحة "قيد التجهيز"."""
+    if dj_settings.DOWNLOAD_URL:
+        return redirect(dj_settings.DOWNLOAD_URL)
+
+    path = os.path.join(dj_settings.BASE_DIR, 'downloads', 'ZONE_X_Setup.exe')
+    if os.path.exists(path):
+        return FileResponse(open(path, 'rb'), as_attachment=True, filename='ZONE_X_Setup.exe')
+
+    return render(request, 'portal/download_pending.html')
 
 
 def status_detail(request, sub_id):
