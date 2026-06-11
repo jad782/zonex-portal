@@ -72,9 +72,16 @@ class Subscription(models.Model):
 
     def approve_and_generate_key(self):
         """يفعّل الاشتراك ويولّد كود التفعيل المربوط باسم المحل."""
-        self.expires_at = (timezone.localdate() + timedelta(days=self.plan_days))
-        self.license_key = generate_license_key(self.store_name, self.expires_at)
         self.status = 'approved'
-        self.approved_at = timezone.now()
-        self.save()
+        self.save()   # save() يولّد الكود تلقائياً (تحت)
         return self.license_key
+
+    def save(self, *args, **kwargs):
+        """ضمان: أي اشتراك حالته 'approved' لازم يكون عنده كود تفعيل تلقائياً —
+        بغض النظر عن طريقة الموافقة (زر، أكشن، أو تغيير الحالة يدوياً)."""
+        if self.status == 'approved' and not self.license_key:
+            self.expires_at = timezone.localdate() + timedelta(days=self.plan_days)
+            self.license_key = generate_license_key(self.store_name, self.expires_at)
+            if not self.approved_at:
+                self.approved_at = timezone.now()
+        super().save(*args, **kwargs)
