@@ -1,0 +1,68 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+
+<!-- HERO -->
+<section style="text-align:center;padding:50px 0 40px">
+  <div style="display:inline-block;background:rgba(0,242,255,.08);border:1px solid rgba(0,242,255,.25);color:var(--cyan);padding:7px 16px;border-radius:30px;font-size:13px;font-weight:700;margin-bottom:22px">
+    🎮 النظام الأذكى لإدارة صالات الألعاب
+  </div>
+  <h1 style="font-size:46px;font-weight:800;line-height:1.2;margin-bottom:18px">
+    أدِر صالتك بالكامل<br><span style="color:var(--cyan)">من شاشة واحدة</span>
+  </h1>
+  <p style="color:var(--muted);font-size:18px;max-width:620px;margin:0 auto 30px;line-height:1.7">
+    بلايستيشن، كمبيوترات، وكافيتيريا — حساب الوقت تلقائي، فاتورة موحّدة، وتقارير لحظية.
+    يشتغل أوفلاين على كمبيوتر الكاشير بدون إنترنت.
+  </p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="{% url 'signup' %}" class="btn btn-primary" style="height:52px;font-size:16px"><i class="ti ti-rocket"></i> ابدأ اشتراكك</a>
+    <a href="#pricing" class="btn btn-ghost" style="height:52px;font-size:16px">شوف الباقات</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding:30px 0">
+  <h2 class="section-title">شو بيميّز ZONE X؟</h2>
+  <p class="section-sub">كل اللي بتحتاجه صالتك بمكان واحد</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
+    {% for f in features %}{% endfor %}
+    <div class="card"><div style="font-size:30px">🕹️</div><h3 style="margin:10px 0 6px">تسعير حسب عدد الأيدي</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">سعر مختلف لـ 1 / 2 / 3 / 4 يد، مع عدّاد وقت حي لكل جهاز.</p></div>
+    <div class="card"><div style="font-size:30px">⏰</div><h3 style="margin:10px 0 6px">تنبيه انتهاء الوقت</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">حدّد وقت للزبون، ولما يخلص يطلع صوت وتنبيه على الشاشة.</p></div>
+    <div class="card"><div style="font-size:30px">☕</div><h3 style="margin:10px 0 6px">كافيتيريا على الطاولة</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">أضف مشروبات وسناكس على حساب الطاولة، وفاتورة واحدة بالنهاية.</p></div>
+    <div class="card"><div style="font-size:30px">🔄</div><h3 style="margin:10px 0 6px">نقل الجلسة بالسحب</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">الزبون بدّل جهاز؟ اسحب الطاولة وارميها على الجهاز التاني.</p></div>
+    <div class="card"><div style="font-size:30px">📊</div><h3 style="margin:10px 0 6px">تقارير وأرباح</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">تقارير بأي فترة، تفصيل الدفع كاش/بطاقة، وتصدير Excel.</p></div>
+    <div class="card"><div style="font-size:30px">⚡</div><h3 style="margin:10px 0 6px">تحكم بالكهرباء</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">يفتح ويطفّي الجهاز فعلياً عبر كرت تحكم — وداعاً للتلاعب.</p></div>
+    <div class="card"><div style="font-size:30px">🌐</div><h3 style="margin:10px 0 6px">٣ لغات</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">عربي · تركي · إنجليزي — بضغطة زر حسب محلّك.</p></div>
+    <div class="card"><div style="font-size:30px">🔒</div><h3 style="margin:10px 0 6px">حماية الصندوق</h3><p style="color:var(--muted);font-size:14px;line-height:1.7">صلاحيات مدير بكلمة سر، الكاشير ما يقدر يحذف أو يعدّل.</p></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="padding:50px 0 20px">
+  <h2 class="section-title">الباقات والأسعار</h2>
+  <p class="section-sub">اختر الباقة المناسبة — الاشتراك السنوي يوفّر لك شهرين مجاناً 🎁</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:900px;margin:0 auto">
+    {% for p in plans %}
+    <div class="card" style="position:relative;text-align:center;{% if p.highlight %}border-color:var(--green);box-shadow:0 0 30px rgba(57,255,20,.15){% endif %}">
+      {% if p.highlight %}<div style="position:absolute;top:-13px;right:50%;transform:translateX(50%);background:var(--green);color:#021;font-weight:800;font-size:12px;padding:4px 14px;border-radius:20px">الأوفر · شهرين مجاناً</div>{% endif %}
+      <h3 style="font-size:20px;margin-bottom:6px">{{ p.label }}</h3>
+      <div style="font-family:var(--mono);font-size:42px;font-weight:800;color:{% if p.highlight %}var(--green){% else %}var(--cyan){% endif %}">${{ p.price }}</div>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:6px">≈ ${{ p.monthly_equiv }} / شهر</div>
+      {% if p.free_months %}<div style="color:var(--green);font-size:13px;font-weight:700;margin-bottom:14px">+ {{ p.free_months }} شهر مجاناً</div>{% else %}<div style="height:14px"></div>{% endif %}
+      <a href="{% url 'signup' %}?plan={{ p.key }}" class="btn {% if p.highlight %}btn-green{% else %}btn-primary{% endif %}" style="width:100%">اشترك</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- HOW -->
+<section style="padding:50px 0 10px">
+  <h2 class="section-title">كيف تشترك؟</h2>
+  <p class="section-sub">٣ خطوات وبتصير صالتك جاهزة</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:850px;margin:0 auto">
+    <div class="card" style="text-align:center"><div style="font-size:26px;color:var(--cyan);font-family:var(--mono);font-weight:800">1</div><h3 style="margin:8px 0 6px">سجّل محلّك</h3><p style="color:var(--muted);font-size:14px">اكتب اسم المحل واختر الباقة.</p></div>
+    <div class="card" style="text-align:center"><div style="font-size:26px;color:var(--cyan);font-family:var(--mono);font-weight:800">2</div><h3 style="margin:8px 0 6px">حوّل وارفع الإيصال</h3><p style="color:var(--muted);font-size:14px">شام كاش أو Kuwait Türk، وارفع صورة الحوالة.</p></div>
+    <div class="card" style="text-align:center"><div style="font-size:26px;color:var(--cyan);font-family:var(--mono);font-weight:800">3</div><h3 style="margin:8px 0 6px">نفعّلك ونعطيك الكود</h3><p style="color:var(--muted);font-size:14px">بعد التأكد، نبعتلك كود التفعيل ويفتح النظام.</p></div>
+  </div>
+</section>
+
+{% endblock %}

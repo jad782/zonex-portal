@@ -1,0 +1,22 @@
+{% extends 'portal/base.html' %}
+{% block title %}حالة طلبي — ZONE X{% endblock %}
+{% block content %}
+<div style="max-width:480px;margin:40px auto">
+  <h2 class="section-title" style="font-size:26px">تابع حالة طلبك</h2>
+  <p class="section-sub">أدخل رقم الهاتف اللي سجّلت فيه</p>
+  <form method="post" class="card">
+    {% csrf_token %}
+    <label>رقم الهاتف / واتساب</label>
+    <input class="input" name="phone" required placeholder="+963..." value="{{ request.POST.phone }}">
+    <button class="btn btn-primary" style="width:100%;margin-top:18px"><i class="ti ti-search"></i> بحث</button>
+  </form>
+
+  {% if sub %}
+  <div class="card" style="margin-top:18px;text-align:center">
+    <div style="color:var(--muted);font-size:13px">{{ sub.store_name }} · {{ sub.get_plan_display }}</div>
+    <div style="font-size:20px;font-weight:800;margin:8px 0;color:var(--cyan)">{{ sub.get_status_display }}</div>
+    <a href="{% url 'status_detail' sub.id %}" class="btn btn-primary" style="margin-top:8px">عرض التفاصيل</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

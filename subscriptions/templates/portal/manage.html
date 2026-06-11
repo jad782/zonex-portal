@@ -1,0 +1,86 @@
+{% extends 'portal/base.html' %}
+{% block title %}إدارة الاشتراكات — ZONE X{% endblock %}
+{% block content %}
+
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:20px">
+  <h2 style="font-size:24px">📋 إدارة الاشتراكات</h2>
+  <a href="{% url 'manage_logout' %}" class="btn btn-ghost"><i class="ti ti-logout"></i> خروج</a>
+</div>
+
+<!-- tabs -->
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+  <a href="?f=review" class="btn {% if filter == 'review' %}btn-primary{% else %}btn-ghost{% endif %}">⏳ بانتظار المراجعة ({{ counts.review }})</a>
+  <a href="?f=pending" class="btn {% if filter == 'pending' %}btn-primary{% else %}btn-ghost{% endif %}">💳 لم يدفع ({{ counts.pending }})</a>
+  <a href="?f=approved" class="btn {% if filter == 'approved' %}btn-primary{% else %}btn-ghost{% endif %}">✅ مُفعّل ({{ counts.approved }})</a>
+  <a href="?f=all" class="btn {% if filter == 'all' %}btn-primary{% else %}btn-ghost{% endif %}">الكل ({{ counts.all }})</a>
+</div>
+
+<div style="display:grid;gap:14px">
+  {% for s in subs %}
+  <div class="card" id="sub-{{ s.id }}" style="display:grid;grid-template-columns:90px 1fr auto;gap:16px;align-items:center">
+    <!-- receipt -->
+    <div>
+      {% if s.receipt_image %}
+        <a href="{{ s.receipt_image.url }}" target="_blank"><img src="{{ s.receipt_image.url }}" style="width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid rgba(255,255,255,.15)"></a>
+      {% else %}
+        <div style="width:90px;height:90px;border-radius:10px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px">لا إيصال</div>
+      {% endif %}
+    </div>
+    <!-- info -->
+    <div>
+      <div style="font-weight:800;font-size:17px;color:var(--cyan)">{{ s.store_name }}</div>
+      <div style="color:var(--muted);font-size:13px;margin-top:3px">{{ s.owner_name }} · {{ s.phone }} · {{ s.get_country_display }}</div>
+      <div style="margin-top:6px;font-size:13px">
+        <span style="background:rgba(255,183,0,.12);color:var(--amber);padding:3px 10px;border-radius:8px">{{ s.get_plan_display }} · ${{ s.price }}</span>
+        {% if s.transaction_id %}<span style="color:var(--muted);margin-right:8px">رقم العملية: <b>{{ s.transaction_id }}</b></span>{% endif %}
+      </div>
+      <div id="result-{{ s.id }}" style="margin-top:8px">
+        {% if s.status == 'approved' %}
+          <div style="background:rgba(57,255,20,.08);border:1px solid rgba(57,255,20,.25);border-radius:10px;padding:8px 12px;font-family:var(--mono)">
+            <span style="color:var(--green)">✅ مُفعّل</span> · الكود: <b style="color:var(--cyan)">{{ s.license_key }}</b> · حتى {{ s.expires_at }}
+          </div>
+        {% elif s.status == 'rejected' %}
+          <span style="color:var(--red)">❌ مرفوض</span>
+        {% endif %}
+      </div>
+    </div>
+    <!-- actions -->
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:130px" id="actions-{{ s.id }}">
+      {% if s.status != 'approved' and s.status != 'rejected' %}
+        <button class="btn btn-green" onclick="approveSub({{ s.id }})"><i class="ti ti-check"></i> موافقة</button>
+        <button class="btn btn-ghost" onclick="rejectSub({{ s.id }})" style="color:var(--red)"><i class="ti ti-x"></i> رفض</button>
+      {% else %}
+        <a href="{% url 'status_detail' s.id %}" target="_blank" class="btn btn-ghost">عرض</a>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <div class="card" style="text-align:center;color:var(--muted);padding:40px">لا يوجد طلبات في هذا القسم</div>
+  {% endfor %}
+</div>
+
+<script>
+function getCookie(n){let v=null;document.cookie.split(';').forEach(c=>{c=c.trim();if(c.startsWith(n+'='))v=decodeURIComponent(c.substring(n.length+1))});return v}
+const csrf=getCookie('csrftoken');
+function post(url){return fetch(url,{method:'POST',headers:{'X-CSRFToken':csrf}}).then(r=>r.json())}
+
+function approveSub(id){
+  const btns=document.getElementById('actions-'+id);
+  btns.innerHTML='<span style="color:var(--muted)">جارٍ التفعيل...</span>';
+  post('/manage/approve/'+id+'/').then(d=>{
+    if(d.status!=='success'){alert('صار خطأ');return}
+    document.getElementById('result-'+id).innerHTML=
+      `<div style="background:rgba(57,255,20,.08);border:1px solid rgba(57,255,20,.25);border-radius:10px;padding:8px 12px;font-family:var(--mono)"><span style="color:var(--green)">✅ مُفعّل</span> · الكود: <b style="color:var(--cyan)">${d.license_key}</b> · حتى ${d.expires_at}</div>`;
+    btns.innerHTML='<button class="btn btn-ghost" onclick="copyKey(\''+d.license_key+'\')"><i class="ti ti-copy"></i> نسخ الكود</button>';
+  }).catch(()=>alert('فشل الاتصال — تأكد أن السيرفر شغّال'));
+}
+function rejectSub(id){
+  if(!confirm('متأكد من رفض الطلب؟'))return;
+  post('/manage/reject/'+id+'/').then(d=>{
+    document.getElementById('sub-'+id).style.opacity='.4';
+    document.getElementById('actions-'+id).innerHTML='<span style="color:var(--red)">❌ مرفوض</span>';
+  });
+}
+function copyKey(k){navigator.clipboard.writeText(k).then(()=>alert('تم نسخ الكود: '+k))}
+</script>
+{% endblock %}

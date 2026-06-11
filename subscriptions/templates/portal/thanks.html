@@ -1,0 +1,19 @@
+{% extends 'portal/base.html' %}
+{% block title %}تم الإرسال — ZONE X{% endblock %}
+{% block content %}
+<div style="max-width:520px;margin:40px auto;text-align:center">
+  <div style="font-size:60px">⏳</div>
+  <h2 style="font-size:26px;margin:14px 0 10px">طلبك قيد المراجعة</h2>
+  <p style="color:var(--muted);line-height:1.8;margin-bottom:22px">
+    استلمنا حوالتك لمحل <b style="color:var(--cyan)">{{ sub.store_name }}</b>.<br>
+    رح نتأكد من التحويل ونفعّل اشتراكك، وبيوصلك كود التفعيل على واتساب.
+  </p>
+  <div class="card" style="text-align:right">
+    <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:var(--muted)">رقم الطلب</span><b>#{{ sub.id }}</b></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:var(--muted)">الباقة</span><b>{{ sub.get_plan_display }}</b></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:var(--muted)">المبلغ</span><b style="color:var(--green)">${{ sub.price }}</b></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="color:var(--muted)">رقم العملية</span><b>{{ sub.transaction_id }}</b></div>
+  </div>
+  <a href="{% url 'status_detail' sub.id %}" class="btn btn-primary" style="margin-top:20px"><i class="ti ti-refresh"></i> تابع حالة الطلب</a>
+</div>
+{% endblock %}

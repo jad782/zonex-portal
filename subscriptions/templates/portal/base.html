@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}ZONE X — نظام إدارة صالات الألعاب{% endblock %}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=JetBrains+Mono:wght@700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060810;--panel:#0d1020;--line:#1c2240;--txt:#eef0ff;--muted:#7b86a8;
+  --cyan:#00f2ff;--green:#39ff14;--amber:#ffb700;--red:#ff3860;--purple:#a855f7;
+  --ar:'Tajawal',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--ar);color:var(--txt);background:
+  radial-gradient(ellipse at 15% 0%,rgba(0,242,255,.08),transparent 42%),
+  radial-gradient(ellipse at 85% 8%,rgba(57,255,20,.06),transparent 38%),#060810;
+  min-height:100vh;}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+.nav{display:flex;justify-content:space-between;align-items:center;height:68px;border-bottom:1px solid rgba(0,242,255,.12);position:sticky;top:0;background:rgba(6,8,16,.85);backdrop-filter:blur(12px);z-index:20}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:800;color:var(--cyan);font-size:18px;letter-spacing:1px}
+.brand .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,rgba(0,242,255,.25),rgba(57,255,20,.15));border:1px solid rgba(0,242,255,.4);display:flex;align-items:center;justify-content:center;font-size:20px}
+.nav-links{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:42px;padding:0 20px;border-radius:11px;border:none;cursor:pointer;font-family:var(--ar);font-weight:800;font-size:14px;transition:.15s}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),#0090ff);color:#021;box-shadow:0 0 20px rgba(0,242,255,.3)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--txt)}
+.btn-green{background:linear-gradient(135deg,var(--green),#1fc40f);color:#021}
+.input,select,textarea{width:100%;height:46px;border-radius:11px;background:rgba(0,0,0,.35);color:var(--txt);border:1px solid rgba(255,255,255,.12);padding:0 14px;font-family:var(--ar);font-size:15px}
+.input:focus,select:focus{outline:none;border-color:var(--cyan)}
+select option{background:#0a0d18}
+label{display:block;color:var(--muted);font-size:13px;margin:14px 0 6px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px}
+.msg{padding:12px 16px;border-radius:12px;margin-bottom:14px;font-weight:700}
+.msg.error{background:rgba(255,56,96,.12);border:1px solid rgba(255,56,96,.3);color:var(--red)}
+.msg.success{background:rgba(57,255,20,.10);border:1px solid rgba(57,255,20,.3);color:var(--green)}
+footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0;color:var(--muted);text-align:center;font-size:13px}
+.section-title{font-size:28px;font-weight:800;text-align:center;margin-bottom:8px}
+.section-sub{color:var(--muted);text-align:center;margin-bottom:34px}
+</style>
+{% block head %}{% endblock %}
+</head>
+<body>
+<div class="nav">
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;width:100%">
+    <a href="{% url 'landing' %}" class="brand"><span class="logo"><i class="ti ti-device-gamepad-2"></i></span> ZONE X</a>
+    <div class="nav-links">
+      <a href="{% url 'status_lookup' %}" class="btn btn-ghost"><i class="ti ti-search"></i> حالة طلبي</a>
+      <a href="{% url 'signup' %}" class="btn btn-primary"><i class="ti ti-rocket"></i> اشترك الآن</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" style="padding-top:34px">
+  {% if messages %}
+    {% for m in messages %}
+      <div class="msg {{ m.tags }}">{{ m }}</div>
+    {% endfor %}
+  {% endif %}
+  {% block content %}{% endblock %}
+</div>
+
+<footer>
+  ZONE X © {% now "Y" %} — نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل: واتساب
+</footer>
+</body>
+</html>

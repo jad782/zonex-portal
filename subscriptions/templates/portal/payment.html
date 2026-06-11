@@ -1,0 +1,44 @@
+{% extends 'portal/base.html' %}
+{% block title %}الدفع — ZONE X{% endblock %}
+{% block content %}
+<div style="max-width:560px;margin:0 auto">
+  <h2 class="section-title" style="font-size:26px">الدفع وتأكيد الحوالة</h2>
+  <p class="section-sub">{{ sub.store_name }} · {{ sub.get_plan_display }} · <b style="color:var(--green)">${{ sub.price }}</b></p>
+
+  <form method="post" enctype="multipart/form-data" class="card">
+    {% csrf_token %}
+
+    <label>طريقة الدفع</label>
+    <select name="payment_method" id="methodSel" onchange="showInfo()">
+      {% for key,label in methods %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+    </select>
+
+    {% for key,info in payment_info.items %}
+    <div class="pay-info" data-key="{{ key }}" style="display:none;background:rgba(0,242,255,.05);border:1px solid rgba(0,242,255,.18);border-radius:12px;padding:14px;margin-top:14px;font-size:14px;line-height:1.9">
+      <b style="color:var(--cyan)">{{ info.title }}</b>
+      {% for line in info.lines %}<div>{{ line }}</div>{% endfor %}
+    </div>
+    {% endfor %}
+
+    <label>رقم العملية (Transaction ID) *</label>
+    <input class="input" name="transaction_id" required placeholder="الرقم المرجعي للحوالة">
+
+    <label>صورة إيصال التحويل *</label>
+    <input class="input" name="receipt_image" type="file" accept="image/*" required style="padding-top:10px;height:auto">
+
+    <button class="btn btn-green" style="width:100%;margin-top:22px;height:50px"><i class="ti ti-send"></i> إرسال للمراجعة</button>
+  </form>
+
+  <p style="color:var(--muted);font-size:13px;text-align:center;margin-top:16px">
+    بعد الإرسال، نراجع الحوالة ونفعّل اشتراكك ونبعتلك كود التفعيل.
+  </p>
+</div>
+
+<script>
+function showInfo(){
+  var k=document.getElementById('methodSel').value;
+  document.querySelectorAll('.pay-info').forEach(function(d){d.style.display=d.getAttribute('data-key')===k?'block':'none'});
+}
+showInfo();
+</script>
+{% endblock %}

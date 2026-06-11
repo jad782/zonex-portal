@@ -1,0 +1,55 @@
+{% extends 'portal/base.html' %}
+{% block title %}حالة الاشتراك — ZONE X{% endblock %}
+{% block head %}
+  {% if sub.status == 'pending' or sub.status == 'submitted' %}
+  <meta http-equiv="refresh" content="15">
+  {% endif %}
+{% endblock %}
+{% block content %}
+<div style="max-width:520px;margin:40px auto;text-align:center">
+  {% if sub.status == 'approved' %}
+    <div style="font-size:60px">✅</div>
+    <h2 style="font-size:26px;margin:14px 0 10px;color:var(--green)">اشتراكك مُفعّل!</h2>
+    <p style="color:var(--muted);margin-bottom:20px">انسخ كود التفعيل وأدخله في برنامج ZONE X على كمبيوتر المحل.</p>
+    <div class="card">
+      <div style="color:var(--muted);font-size:13px;margin-bottom:8px">كود التفعيل</div>
+      <div id="keyText" style="font-family:var(--mono);font-size:22px;font-weight:800;color:var(--cyan);letter-spacing:1px;word-break:break-all">{{ sub.license_key }}</div>
+      <div style="color:var(--muted);font-size:13px;margin-top:14px">صالح حتى: <b>{{ sub.expires_at }}</b></div>
+      <div style="color:var(--amber);font-size:12px;margin-top:10px">اسم المحل: «<b>{{ sub.store_name }}</b>»</div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px">
+        <a class="btn btn-green" style="flex:1;min-width:200px"
+           href="http://127.0.0.1:8765/login/?store_name={{ sub.store_name|urlencode }}&license_key={{ sub.license_key|urlencode }}">
+          <i class="ti ti-login"></i> دخول مباشر للنظام
+        </a>
+        <button class="btn btn-ghost" onclick="copyAll()" style="flex:1;min-width:160px">
+          <i class="ti ti-copy"></i> نسخ الاسم والكود
+        </button>
+      </div>
+      <div style="color:var(--muted);font-size:12px;margin-top:12px;line-height:1.7">
+        ⚠️ لازم برنامج ZONE X يكون مفتوح على الكمبيوتر قبل ما تضغط «دخول مباشر».
+        إذا ما اشتغل الزر، انسخ الاسم والكود وحطّهم بالبرنامج يدوي.
+      </div>
+    </div>
+
+    <script>
+    function copyAll(){
+      var t = "اسم المحل: {{ sub.store_name|escapejs }}\nكود التفعيل: {{ sub.license_key|escapejs }}";
+      navigator.clipboard.writeText(t).then(function(){ alert('تم النسخ ✅'); });
+    }
+    </script>
+  {% elif sub.status == 'rejected' %}
+    <div style="font-size:60px">❌</div>
+    <h2 style="font-size:26px;margin:14px 0 10px;color:var(--red)">الطلب مرفوض</h2>
+    <p style="color:var(--muted)">{{ sub.admin_note|default:'تواصل معنا على واتساب لمعرفة السبب.' }}</p>
+  {% else %}
+    <div style="font-size:60px">⏳</div>
+    <h2 style="font-size:26px;margin:14px 0 10px">{{ sub.get_status_display }}</h2>
+    <p style="color:var(--muted)">طلب #{{ sub.id }} — {{ sub.store_name }}. رح نفعّلك قريباً.</p>
+    <p style="color:var(--cyan);font-size:13px;margin-top:14px">
+      <i class="ti ti-refresh"></i> خلّي هالصفحة مفتوحة — رح يظهرلك كود التفعيل تلقائياً أول ما نوافق.
+    </p>
+  {% endif %}
+  <a href="{% url 'landing' %}" class="btn btn-ghost" style="margin-top:20px">الرئيسية</a>
+</div>
+{% endblock %}

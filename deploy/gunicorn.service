@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon for ZoneX
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/ZoneX-Portal
+ExecStart=/var/www/ZoneX-Portal/env/bin/gunicorn \
+        --access-logfile - \
+        --workers 3 \
+        --bind unix:/run/gunicorn.sock \
+        portal_core.wsgi:application
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
