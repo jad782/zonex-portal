@@ -23,6 +23,9 @@
     <label>اسم صاحب المحل *</label>
     <input class="input" name="owner_name" required value="{{ request.POST.owner_name }}">
 
+    <label>كلمة سر المدير (للوحة المدير داخل البرنامج)</label>
+    <input class="input" name="manager_password" placeholder="مثلاً: 4421 — تستعملها لفتح لوحة المدير" value="{{ request.POST.manager_password|default:'1234' }}">
+
     <label>رقم الهاتف / واتساب *</label>
     <input class="input" name="phone" required placeholder="+963..." value="{{ request.POST.phone }}">
 

@@ -30,6 +30,7 @@
     <div>
       <div style="font-weight:800;font-size:17px;color:var(--cyan)">{{ s.store_name }}</div>
       <div style="color:var(--muted);font-size:13px;margin-top:3px">{{ s.owner_name }} · {{ s.phone }} · {{ s.get_country_display }}</div>
+      <div style="font-size:12px;margin-top:3px">🔑 كلمة سر المدير: <b style="color:var(--amber);font-family:var(--mono)">{{ s.manager_password }}</b></div>
       <div style="margin-top:6px;font-size:13px">
         <span style="background:rgba(255,183,0,.12);color:var(--amber);padding:3px 10px;border-radius:8px">{{ s.get_plan_display }} · ${{ s.price }}</span>
         {% if s.transaction_id %}<span style="color:var(--muted);margin-right:8px">رقم العملية: <b>{{ s.transaction_id }}</b></span>{% endif %}

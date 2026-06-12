@@ -63,6 +63,7 @@ def signup(request):
 
         store_name = (request.POST.get('store_name') or '').strip()
         owner_name = (request.POST.get('owner_name') or '').strip()
+        manager_password = (request.POST.get('manager_password') or '').strip()
         phone = (request.POST.get('phone') or '').strip()
         email = (request.POST.get('email') or '').strip()
         country = request.POST.get('country', 'SY')
@@ -73,6 +74,7 @@ def signup(request):
             sub = Subscription.objects.create(
                 store_name=store_name,
                 owner_name=owner_name,
+                manager_password=manager_password or '1234',
                 phone=phone,
                 email=email or None,
                 country=country,

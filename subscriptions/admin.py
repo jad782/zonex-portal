@@ -18,7 +18,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('معلومات المحل', {
-            'fields': ('store_name', 'owner_name', 'phone', 'email', 'country'),
+            'fields': ('store_name', 'owner_name', 'manager_password', 'phone', 'email', 'country'),
         }),
         ('الاشتراك', {
             'fields': ('plan', 'price', 'status'),

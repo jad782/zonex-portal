@@ -39,6 +39,7 @@ STATUS_CHOICES = [
 class Subscription(models.Model):
     store_name = models.CharField(max_length=120, verbose_name="اسم المحل")
     owner_name = models.CharField(max_length=120, verbose_name="اسم صاحب المحل")
+    manager_password = models.CharField(max_length=50, default='1234', verbose_name="كلمة سر المدير")
     phone = models.CharField(max_length=40, verbose_name="رقم الهاتف / واتساب")
     email = models.EmailField(blank=True, null=True, verbose_name="البريد (اختياري)")
     country = models.CharField(max_length=10, choices=COUNTRY_CHOICES, default='SY', verbose_name="الدولة")
