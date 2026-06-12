@@ -125,6 +125,27 @@ def thanks(request, sub_id):
     return render(request, 'portal/thanks.html', {'sub': sub})
 
 
+def store_config(request):
+    """يرجّع إعدادات المحل (كلمة سر المدير، اسم صاحب المحل) للتطبيق المحلي وقت التفعيل.
+    يتطلب اسم المحل + كود تفعيل صحيح ومفعّل."""
+    from .licensekey import normalize_customer_name
+    store = (request.GET.get('store_name') or '').strip()
+    key = (request.GET.get('license_key') or '').strip().upper()
+
+    if not store or not key:
+        return JsonResponse({'ok': False, 'error': 'missing params'}, status=400)
+
+    sub = Subscription.objects.filter(license_key=key, status='approved').first()
+    if not sub or normalize_customer_name(sub.store_name) != normalize_customer_name(store):
+        return JsonResponse({'ok': False})
+
+    return JsonResponse({
+        'ok': True,
+        'manager_password': sub.manager_password or '1234',
+        'owner_name': sub.owner_name or '',
+    })
+
+
 def download_app(request):
     """تحميل برنامج ZONE X.
     1) إذا في رابط خارجي (Google Drive) محدّد بـ .env → يحوّل إليه.
