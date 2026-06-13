@@ -39,6 +39,15 @@ label{display:block;color:var(--muted);font-size:13px;margin:14px 0 6px}
 footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0;color:var(--muted);text-align:center;font-size:13px}
 .section-title{font-size:28px;font-weight:800;text-align:center;margin-bottom:8px}
 .section-sub{color:var(--muted);text-align:center;margin-bottom:34px}
+.menu-toggle{display:none;width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--txt);align-items:center;justify-content:center;font-size:20px;cursor:pointer}
+.mobile-menu{display:none}
+@media (max-width:640px){
+  h1{font-size:34px !important}
+  .nav-links .desk-only{display:none}
+  .menu-toggle{display:inline-flex}
+  .mobile-menu.open{display:block}
+  .mobile-menu a{display:block;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07);color:var(--txt);font-weight:700}
+}
 </style>
 {% block head %}{% endblock %}
 </head>
@@ -47,9 +56,17 @@ footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0
   <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;width:100%">
     <a href="{% url 'landing' %}" class="brand"><span class="logo"><i class="ti ti-device-gamepad-2"></i></span> ZONE X</a>
     <div class="nav-links">
-      <a href="{% url 'status_lookup' %}" class="btn btn-ghost"><i class="ti ti-search"></i> حالة طلبي</a>
+      <a href="{% url 'status_lookup' %}" class="btn btn-ghost desk-only"><i class="ti ti-search"></i> حالة طلبي</a>
       <a href="{% url 'signup' %}" class="btn btn-primary"><i class="ti ti-rocket"></i> اشترك الآن</a>
+      <button class="menu-toggle" onclick="document.getElementById('mmenu').classList.toggle('open')" aria-label="القائمة"><i class="ti ti-menu-2"></i></button>
     </div>
+  </div>
+</div>
+<div id="mmenu" class="mobile-menu" style="border-bottom:1px solid rgba(0,242,255,.12);background:rgba(6,8,16,.97)">
+  <div class="wrap">
+    <a href="{% url 'landing' %}"><i class="ti ti-home"></i> الرئيسية</a>
+    <a href="{% url 'landing' %}#pricing"><i class="ti ti-tag"></i> الباقات</a>
+    <a href="{% url 'status_lookup' %}"><i class="ti ti-search"></i> حالة طلبي</a>
   </div>
 </div>
 
@@ -63,7 +80,8 @@ footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0
 </div>
 
 <footer>
-  ZONE X © {% now "Y" %} — نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل: واتساب
+  ZONE X © {% now "Y" %} — نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل:
+  <a href="https://wa.me/905551517264" target="_blank" style="color:var(--green);font-weight:700"><i class="ti ti-brand-whatsapp"></i> واتساب</a>
 </footer>
 </body>
 </html>

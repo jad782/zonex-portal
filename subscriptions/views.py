@@ -36,19 +36,36 @@ PAYMENT_INFO = {
 }
 
 
+# رقم واتساب للتواصل/الديمو — عدّله برقمك الحقيقي (صيغة دولية بدون + أو 00)
+WHATSAPP_NUMBER = '905551517264'
+
+# أسماء تجارية ووصف لكل باقة (تظهر بالموقع فقط)
+PLAN_MARKETING = {
+    'monthly':   {'tier': 'Starter', 'desc': 'للمحل الصغير — يبدأ معك بأقل تكلفة.'},
+    'quarterly': {'tier': 'Pro',     'desc': 'للمحل المتوسط — توفير أكثر على ٣ أشهر.'},
+    'yearly':    {'tier': 'Annual',  'desc': 'أفضل سعر — شهرين مجاناً بالاشتراك السنوي.'},
+}
+
+
 def landing(request):
     plans = []
     for key, data in PLANS.items():
+        mk = PLAN_MARKETING.get(key, {})
         plans.append({
             'key': key,
             'label': data['label'],
+            'tier': mk.get('tier', ''),
+            'desc': mk.get('desc', ''),
             'price': data['price'],
             'months': data['months'],
             'monthly_equiv': round(data['price'] / data['months'], 1),
             'highlight': key == 'yearly',
             'free_months': 2 if key == 'yearly' else 0,
         })
-    return render(request, 'portal/landing.html', {'plans': plans})
+    return render(request, 'portal/landing.html', {
+        'plans': plans,
+        'whatsapp': WHATSAPP_NUMBER,
+    })
 
 
 def signup(request):
