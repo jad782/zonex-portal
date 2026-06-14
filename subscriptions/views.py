@@ -11,27 +11,29 @@ from django.views.decorators.http import require_POST
 
 from .models import Subscription, PLANS, PLAN_CHOICES, COUNTRY_CHOICES, PAYMENT_CHOICES
 
-# ⚠️ معلومات الدفع — عدّلها لاحقاً بأرقامك الحقيقية
+# معلومات الدفع الحقيقية
 PAYMENT_INFO = {
     'shamcash': {
         'title': 'شام كاش (سوريا)',
         'lines': [
-            'رقم الحساب: 0000000000  (ضع رقمك)',
-            'الاسم: ZONE X',
-            'بعد التحويل أدخل رقم العملية وارفع صورة الإيصال.',
+            'للدفع داخل سوريا تواصل معنا على واتساب: 0090 555 151 7264',
+            'منعطيك طريقة الدفع والمبلغ بالليرة السورية حسب سعر اليوم.',
+            'بعد الاتفاق، أكمل الطلب وارفع صورة الإيصال.',
         ],
     },
     'kuwaitturk': {
         'title': 'Kuwait Türk (تركيا)',
         'lines': [
-            'IBAN: TR00 0000 0000 0000 0000 0000 00  (IBAN حسابك)',
-            'Ad / الاسم: ZONE X',
-            'Havale sonrası işlem no girin ve dekontu yükleyin.',
+            'IBAN (ليرة تركية ₺): TR04 0020 5000 0990 7839 6000 01',
+            'IBAN (دولار $): TR90 0020 5000 0990 7839 6001 02',
+            'SWIFT / BIC: KTEFTRISXXX',
+            'الاسم / Ad: JAD ALSAYALEH',
+            'بعد التحويل أدخل رقم العملية وارفع صورة الإيصال (dekont).',
         ],
     },
     'other': {
         'title': 'طريقة أخرى',
-        'lines': ['تواصل معنا على واتساب للاتفاق على طريقة الدفع.'],
+        'lines': ['تواصل معنا على واتساب 0090 555 151 7264 للاتفاق على طريقة الدفع.'],
     },
 }
 

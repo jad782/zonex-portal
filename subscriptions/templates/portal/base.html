@@ -41,12 +41,17 @@ footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0
 .section-sub{color:var(--muted);text-align:center;margin-bottom:34px}
 .menu-toggle{display:none;width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--txt);align-items:center;justify-content:center;font-size:20px;cursor:pointer}
 .mobile-menu{display:none}
+.wa-float{position:fixed;bottom:18px;left:18px;z-index:50;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 6px 22px rgba(37,211,102,.45);transition:.15s}
+.wa-float:hover{transform:scale(1.08)}
 @media (max-width:640px){
   h1{font-size:34px !important}
+  .nav{height:58px}
   .nav-links .desk-only{display:none}
-  .menu-toggle{display:inline-flex}
+  .nav-links .btn-primary{height:38px;padding:0 14px;font-size:13px}
+  .menu-toggle{display:inline-flex;width:38px;height:38px}
   .mobile-menu.open{display:block}
   .mobile-menu a{display:block;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.07);color:var(--txt);font-weight:700}
+  .wa-float{width:50px;height:50px;font-size:25px}
 }
 </style>
 {% block head %}{% endblock %}
@@ -78,6 +83,8 @@ footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0
   {% endif %}
   {% block content %}{% endblock %}
 </div>
+
+<a href="https://wa.me/905551517264?text=مرحبا،%20بدي%20استفسر%20عن%20ZONE%20X" target="_blank" class="wa-float" aria-label="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
 
 <footer>
   ZONE X © {% now "Y" %} — نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل:
