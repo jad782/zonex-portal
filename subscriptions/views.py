@@ -119,14 +119,12 @@ def pay(request, sub_id):
 
     if request.method == 'POST':
         method = request.POST.get('payment_method', 'shamcash')
-        transaction_id = (request.POST.get('transaction_id') or '').strip()
         receipt = request.FILES.get('receipt_image')
 
-        if not transaction_id or not receipt:
-            messages.error(request, 'أدخل رقم العملية وارفع صورة الإيصال.')
+        if not receipt:
+            messages.error(request, 'ارفع صورة الإيصال.')
         else:
             sub.payment_method = method
-            sub.transaction_id = transaction_id
             sub.receipt_image = receipt
             sub.status = 'submitted'
             sub.save()
