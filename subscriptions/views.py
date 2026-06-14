@@ -87,8 +87,19 @@ def signup(request):
         email = (request.POST.get('email') or '').strip()
         country = request.POST.get('country', 'SY')
 
+        # منع التكرار: اسم المحل + الإيميل + رقم الهاتف (اسم صاحب المحل يجوز يتكرر)
+        dup_error = None
         if not store_name or not owner_name or not phone:
-            messages.error(request, 'اكتب اسم المحل واسم صاحبه ورقم الهاتف.')
+            dup_error = 'اكتب اسم المحل واسم صاحبه ورقم الهاتف.'
+        elif Subscription.objects.filter(store_name__iexact=store_name).exists():
+            dup_error = 'اسم المحل مستعمل من قبل. اختر اسماً آخر.'
+        elif phone and Subscription.objects.filter(phone=phone).exists():
+            dup_error = 'رقم الهاتف مستعمل من قبل.'
+        elif email and Subscription.objects.filter(email__iexact=email).exists():
+            dup_error = 'البريد الإلكتروني مستعمل من قبل.'
+
+        if dup_error:
+            messages.error(request, dup_error)
         else:
             sub = Subscription.objects.create(
                 store_name=store_name,
