@@ -61,8 +61,13 @@ footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0
   <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;width:100%">
     <a href="{% url 'landing' %}" class="brand"><span class="logo"><i class="ti ti-device-gamepad-2"></i></span> ZONE X</a>
     <div class="nav-links">
-      <a href="{% url 'status_lookup' %}" class="btn btn-ghost desk-only"><i class="ti ti-search"></i> حالة طلبي</a>
-      <a href="{% url 'signup' %}" class="btn btn-primary"><i class="ti ti-rocket"></i> اشترك الآن</a>
+      <select id="langSel" onchange="setLang(this.value)" class="btn btn-ghost" style="height:42px;padding:0 8px;width:auto;cursor:pointer">
+        <option value="ar">🇸🇦 ع</option>
+        <option value="tr">🇹🇷 TR</option>
+        <option value="en">🇬🇧 EN</option>
+      </select>
+      <a href="{% url 'status_lookup' %}" class="btn btn-ghost desk-only"><i class="ti ti-search"></i> <span data-i18n>حالة طلبي</span></a>
+      <a href="{% url 'signup' %}" class="btn btn-primary"><i class="ti ti-rocket"></i> <span data-i18n>اشترك الآن</span></a>
       <button class="menu-toggle" onclick="document.getElementById('mmenu').classList.toggle('open')" aria-label="القائمة"><i class="ti ti-menu-2"></i></button>
     </div>
   </div>
@@ -87,8 +92,172 @@ footer{border-top:1px solid rgba(255,255,255,.08);margin-top:60px;padding:28px 0
 <a href="https://wa.me/905551517264?text=مرحبا،%20بدي%20استفسر%20عن%20ZONE%20X" target="_blank" class="wa-float" aria-label="واتساب"><i class="ti ti-brand-whatsapp"></i></a>
 
 <footer>
-  ZONE X © {% now "Y" %} — نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل:
-  <a href="https://wa.me/905551517264" target="_blank" style="color:var(--green);font-weight:700"><i class="ti ti-brand-whatsapp"></i> واتساب</a>
+  ZONE X © {% now "Y" %} — <span data-i18n>نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل:</span>
+  <a href="https://wa.me/905551517264" target="_blank" style="color:var(--green);font-weight:700"><i class="ti ti-brand-whatsapp"></i> <span data-i18n>واتساب</span></a>
 </footer>
+
+<script>
+// ===== محرّك الترجمة (عربي افتراضي · تركي · إنجليزي) =====
+const I18N = {
+ tr:{
+  "حالة طلبي":"Sipariş durumum","اشترك الآن":"Hemen abone ol","الرئيسية":"Ana sayfa","الباقات":"Paketler",
+  "نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل:":"PlayStation ve kafeterya salonu yönetim sistemi · İletişim:","واتساب":"WhatsApp",
+  "النظام الأذكى لإدارة صالات الألعاب":"Oyun salonları için en akıllı yönetim sistemi",
+  "أدِر صالتك بالكامل":"Salonunuzu tamamen yönetin","من شاشة واحدة":"tek ekrandan",
+  "حاسب وقت اللعب، أضف طلبات الكافيتيريا، اطبع فاتورة موحّدة، وراقب أرباحك اليومية — حتى بدون إنترنت.":"Oyun süresini hesapla, kafeterya siparişlerini ekle, tek fatura yazdır ve günlük kârını izle — internet olmadan bile.",
+  "يبدأ من 50$ شهريًا — الدفع بالليرة السورية / التركية حسب سعر اليوم":"Aylık 50$'dan başlar — günün kuruna göre TL / SYP ödeme",
+  "جرّب الديمو الآن":"Hemen demoyu dene","احجز تفعيل لمحلك":"Mağazan için aktivasyon ayırt","شوف الباقات":"Paketleri gör",
+  "جرّب الديمو قبل ما تدفع":"Ödemeden önce demoyu dene","— نشرح لك النظام على واتساب ونوريك كل شي خطوة بخطوة.":"— Sistemi WhatsApp'ta anlatır, her şeyi adım adım gösteririz.",
+  "نظام شامل — كل شي بمكان واحد":"Eksiksiz sistem — her şey tek yerde",
+  "🎮 PlayStation · 💻 PC · ☕ منتجات الكافيتيريا · 📊 تقارير يومية":"🎮 PlayStation · 💻 PC · ☕ Kafeterya ürünleri · 📊 Günlük raporlar",
+  "شوف النظام خلال 30 ثانية":"Sistemi 30 saniyede gör","جولة سريعة على الشاشات اللي بيشتغل عليها الكاشير":"Kasiyerin kullandığı ekranlara hızlı bir bakış",
+  "شاشة الطاولات":"Masa ekranı","شاغرة":"Boş","شاشة الكاشير":"Kasiyer ekranı",
+  "لعب · 1:15 ساعة":"Oyun · 1:15 saat","قهوة × 2":"Kahve × 2","الإجمالي":"Toplam",
+  "تنبيه انتهاء الوقت":"Süre bitti uyarısı","انتهى وقت MASA-02":"MASA-02 süresi bitti","صوت تنبيه + تمييز الطاولة بالأحمر تلقائياً":"Uyarı sesi + masa otomatik kırmızı işaretlenir",
+  "الفاتورة الموحّدة":"Tek fatura","لعب + كافيتيريا":"Oyun + Kafeterya","المجموع: ₺ 130":"Toplam: ₺ 130","شكراً لزيارتكم":"Ziyaretiniz için teşekkürler",
+  "التقارير اليومية":"Günlük raporlar","إيراد اليوم":"Bugünün geliri",
+  "بدك تشوفه شغّال على الحقيقي؟":"Gerçekte çalışırken görmek ister misin?","اطلب ديمو واتساب":"WhatsApp'tan demo iste",
+  "ليش تختار ZONE X؟":"Neden ZONE X?","كل اللي بتحتاجه صالتك بمكان واحد":"Salonunun ihtiyacı olan her şey tek yerde",
+  "تسعير حسب عدد الأيدي":"Kol sayısına göre fiyat","سعر مختلف لـ 1 / 2 / 3 / 4 يد، مع عدّاد وقت حي لكل جهاز.":"1 / 2 / 3 / 4 kol için farklı fiyat, her cihaz için canlı süre sayacı.",
+  "حدّد وقت للزبون، ولما يخلص يطلع صوت وتنبيه على الشاشة.":"Müşteriye süre belirle; bitince ses ve ekran uyarısı çıkar.",
+  "كافيتيريا على الطاولة":"Masada kafeterya","أضف مشروبات وسناكس على حساب الطاولة، وفاتورة واحدة بالنهاية.":"Masanın hesabına içecek ve atıştırmalık ekle, sonunda tek fatura.",
+  "نقل الجلسة بالسحب":"Oturumu sürükleyerek taşı","الزبون بدّل جهاز؟ اسحب الطاولة وارميها على الجهاز التاني.":"Müşteri cihaz mı değiştirdi? Masayı sürükleyip diğer cihaza bırak.",
+  "تقارير وأرباح":"Raporlar ve kâr","تقارير بأي فترة، تفصيل الدفع كاش/بطاقة، وتصدير Excel.":"İstediğin dönemde rapor, nakit/kart detayı ve Excel'e aktarma.",
+  "تحكم بالكهرباء":"Elektrik kontrolü","يفتح ويغلق الجهاز تلقائيًا حسب الجلسة عبر كرت تحكم — وداعاً للتلاعب.":"Cihazı oturuma göre kontrol kartıyla otomatik açıp kapatır — manipülasyona son.",
+  "٣ لغات":"3 dil","عربي · تركي · إنجليزي — بضغطة زر حسب محلّك.":"Arapça · Türkçe · İngilizce — tek tıkla mağazana göre.",
+  "صلاحيات المدير وحماية الصندوق":"Yönetici yetkileri ve kasa koruması","صلاحيات مدير بكلمة سر، الكاشير ما يقدر يحذف أو يعدّل الأسعار.":"Şifreli yönetici yetkileri; kasiyer silemez veya fiyat değiştiremez.",
+  "اطمئن قبل ما تدفع":"Ödemeden önce içiniz rahat olsun","بياناتك ومحلّك بأمان معنا":"Verilerin ve mağazan bizimle güvende",
+  "بياناتك محفوظة":"Verilerin korunur","محفوظة على كمبيوترك أنت، مش على الإنترنت.":"İnternette değil, kendi bilgisayarında saklanır.",
+  "نسخ احتياطي تلقائي":"Otomatik yedekleme","نسخة احتياطية يومية لكل بياناتك.":"Tüm verilerin için günlük yedek.",
+  "دعم واتساب":"WhatsApp desteği","نرد عليك ونساعدك بأي وقت.":"Her zaman yanıtlar ve yardımcı oluruz.",
+  "يعمل على كمبيوتر الكاشير":"Kasiyer bilgisayarında çalışır","بدون إنترنت، بدون تعقيد.":"İnternetsiz, karmaşa yok.",
+  "صلاحيات مدير وكاشير":"Yönetici ve kasiyer yetkileri","كل واحد يشوف اللي يخصّه فقط.":"Herkes yalnızca kendi işini görür.",
+  "جرّب قبل ما تدفع":"Ödemeden önce dene","اطلب ديمو على واتساب ونوريك كل شي.":"WhatsApp'tan demo iste, her şeyi gösterelim.",
+  "الباقات والأسعار":"Paketler ve fiyatlar","يبدأ من 50$ شهريًا — أو ما يعادلها بالليرة · الاشتراك السنوي يوفّر شهرين مجاناً":"Aylık 50$'dan başlar — veya TL karşılığı · Yıllık abonelik 2 ay bedava",
+  "شهري":"Aylık","٣ أشهر":"3 Aylık","سنوي":"Yıllık",
+  "للمحل الصغير — يبدأ معك بأقل تكلفة.":"Küçük mağaza için — en düşük maliyetle başla.","للمحل المتوسط — توفير أكثر على ٣ أشهر.":"Orta mağaza için — 3 ayda daha fazla tasarruf.","أفضل سعر — شهرين مجاناً بالاشتراك السنوي.":"En iyi fiyat — yıllıkta 2 ay bedava.",
+  "الأوفر · شهرين مجاناً":"En avantajlı · 2 ay bedava","/ شهر · أو ما يعادلها بالليرة":"/ ay · veya TL karşılığı","شهر مجاناً":"ay bedava","اشترك":"Abone ol",
+  "اسأل عن السعر بالليرة اليوم":"Bugünkü TL fiyatını sor","مش متأكد أي باقة؟ اسألنا":"Hangi paket? Bize sor",
+  "مناسب لأي محل؟":"Hangi mağazaya uygun?","إذا عندك أجهزة وزباين بتلعب بالوقت — ZONE X إلك":"Cihazların ve süreyle oynayan müşterilerin varsa — ZONE X senin için.",
+  "صالات بلايستيشن":"PlayStation salonları","صالات PC Gaming":"PC Gaming salonları","كافيهات الألعاب":"Oyun kafeleri","صالات مختلطة":"Karma salonlar",
+  "الفرق واضح":"Fark açık","شوف الفرق قبل وبعد ZONE X":"ZONE X öncesi ve sonrası farkı gör",
+  "بدون ZONE X":"ZONE X olmadan","حساب الوقت يدوي وأخطاء":"Elle süre hesabı ve hatalar","نسيان طلبات الكافيتيريا":"Kafeterya siparişlerini unutma","ما تعرف ربحك الحقيقي":"Gerçek kârını bilmezsin","تلاعب الكاشير بالحساب":"Kasiyerin hesapta manipülasyonu","كل شي على الدفتر":"Her şey deftere",
+  "مع ZONE X":"ZONE X ile","وقت تلقائي بالثانية":"Saniyesine otomatik süre","فاتورة موحّدة لعب + كافيتيريا":"Oyun + kafeterya tek fatura","تقارير وأرباح لحظية":"Anlık rapor ve kâr","صلاحيات مدير وحماية الصندوق":"Yönetici yetkileri ve kasa koruması","تنبيه انتهاء الجلسة":"Oturum bitiş uyarısı",
+  "أسئلة شائعة":"Sıkça sorulan sorular","كل اللي بدك تعرفه قبل ما تشترك":"Abone olmadan önce bilmen gereken her şey",
+  "هل يحتاج إنترنت؟":"İnternet gerekir mi?","لا. البرنامج يشتغل أوفلاين بالكامل على كمبيوتر الكاشير. الإنترنت يلزم فقط أول مرة للتفعيل.":"Hayır. Program kasiyer bilgisayarında tamamen çevrimdışı çalışır. İnternet yalnızca ilk aktivasyonda gerekir.",
+  "هل يشتغل على كمبيوتر ضعيف؟":"Zayıf bilgisayarda çalışır mı?","نعم. خفيف جداً ويشتغل على أي كمبيوتر ويندوز عادي بدون مواصفات قوية.":"Evet. Çok hafiftir, güçlü donanım gerektirmeden her Windows bilgisayarda çalışır.",
+  "هل في نسخة تجريبية؟":"Deneme sürümü var mı?","نعرضلك ديمو كامل على واتساب نوريك فيه كل شي قبل ما تدفع.":"Ödemeden önce WhatsApp'ta her şeyi gösteren tam bir demo sunarız.",
+  "هل البيانات تبقى عندي؟":"Veriler bende kalır mı?","نعم، كل بياناتك محفوظة على جهازك أنت فقط، مع نسخة احتياطية يومية تلقائية.":"Evet, tüm verilerin yalnızca senin cihazında, otomatik günlük yedekle saklanır.",
+  "شو بصير إذا فرمت الكمبيوتر؟":"Bilgisayarı formatlarsam ne olur?","ترجع تثبّت البرنامج وتفعّله بنفس كودك، وترجّع نسختك الاحتياطية. ننصح تحفظ نسخة احتياطية على فلاشة بين فترة وفترة.":"Programı tekrar kurar, aynı kodunla etkinleştirir ve yedeğini geri yüklersin. Ara sıra USB'ye yedek almanı öneririz.",
+  "هل الدعم مجاني؟":"Destek ücretsiz mi?","نعم، الدعم الفني على واتساب مجاني طول فترة اشتراكك.":"Evet, WhatsApp teknik destek abonelik boyunca ücretsizdir.",
+  "هل في تدريب للكاشير؟":"Kasiyer için eğitim var mı?","النظام سهل جداً، ومنشرحلك ولكاشيرك كل شي على واتساب خطوة بخطوة.":"Sistem çok kolaydır; sana ve kasiyerine WhatsApp'ta her şeyi adım adım anlatırız.",
+  "هل في نسخة لأكثر من فرع؟":"Birden fazla şube sürümü var mı?","حالياً كل فرع له نظامه. إدارة عدة فروع من مكان واحد ميزة قادمة — تواصل معنا إذا عندك أكتر من فرع.":"Şu an her şubenin kendi sistemi var. Tek yerden çoklu şube yönetimi yakında — birden fazla şuben varsa bize ulaş.",
+  "كيف تشترك؟":"Nasıl abone olunur?","٣ خطوات وبتصير صالتك جاهزة":"3 adımda salonun hazır",
+  "سجّل محلّك":"Mağazanı kaydet","اكتب اسم المحل واختر الباقة.":"Mağaza adını yaz ve paketi seç.",
+  "حوّل وارفع الإيصال":"Havale yap ve dekontu yükle","شام كاش أو Kuwait Türk، وارفع صورة الحوالة.":"ŞamCash veya Kuwait Türk, havale görselini yükle.",
+  "نفعّلك ونعطيك الكود":"Seni etkinleştirir ve kodu veririz","بعد التأكد، نبعتلك كود التفعيل ويفتح النظام.":"Onaydan sonra aktivasyon kodunu göndeririz ve sistem açılır."
+ },
+ en:{
+  "حالة طلبي":"My order","اشترك الآن":"Subscribe now","الرئيسية":"Home","الباقات":"Packages",
+  "نظام إدارة صالات البلايستيشن والكافيتيريا · للتواصل:":"PlayStation & cafeteria lounge management system · Contact:","واتساب":"WhatsApp",
+  "النظام الأذكى لإدارة صالات الألعاب":"The smartest gaming lounge management system",
+  "أدِر صالتك بالكامل":"Manage your whole lounge","من شاشة واحدة":"from one screen",
+  "حاسب وقت اللعب، أضف طلبات الكافيتيريا، اطبع فاتورة موحّدة، وراقب أرباحك اليومية — حتى بدون إنترنت.":"Track play time, add cafeteria orders, print one bill, and monitor your daily profit — even without internet.",
+  "يبدأ من 50$ شهريًا — الدفع بالليرة السورية / التركية حسب سعر اليوم":"Starts at $50/month — pay in Turkish Lira / Syrian Pound at today's rate",
+  "جرّب الديمو الآن":"Try the demo now","احجز تفعيل لمحلك":"Reserve activation for your shop","شوف الباقات":"See packages",
+  "جرّب الديمو قبل ما تدفع":"Try the demo before you pay","— نشرح لك النظام على واتساب ونوريك كل شي خطوة بخطوة.":"— we explain the system on WhatsApp and show you everything step by step.",
+  "نظام شامل — كل شي بمكان واحد":"All-in-one system — everything in one place",
+  "🎮 PlayStation · 💻 PC · ☕ منتجات الكافيتيريا · 📊 تقارير يومية":"🎮 PlayStation · 💻 PC · ☕ Cafeteria products · 📊 Daily reports",
+  "شوف النظام خلال 30 ثانية":"See the system in 30 seconds","جولة سريعة على الشاشات اللي بيشتغل عليها الكاشير":"A quick tour of the screens the cashier uses",
+  "شاشة الطاولات":"Tables screen","شاغرة":"Free","شاشة الكاشير":"Cashier screen",
+  "لعب · 1:15 ساعة":"Play · 1:15 hr","قهوة × 2":"Coffee × 2","الإجمالي":"Total",
+  "تنبيه انتهاء الوقت":"Time's up alert","انتهى وقت MASA-02":"MASA-02 time is up","صوت تنبيه + تمييز الطاولة بالأحمر تلقائياً":"Alert sound + table auto-highlighted in red",
+  "الفاتورة الموحّدة":"Unified bill","لعب + كافيتيريا":"Play + Cafeteria","المجموع: ₺ 130":"Total: ₺ 130","شكراً لزيارتكم":"Thanks for your visit",
+  "التقارير اليومية":"Daily reports","إيراد اليوم":"Today's revenue",
+  "بدك تشوفه شغّال على الحقيقي؟":"Want to see it working live?","اطلب ديمو واتساب":"Request a WhatsApp demo",
+  "ليش تختار ZONE X؟":"Why choose ZONE X?","كل اللي بتحتاجه صالتك بمكان واحد":"Everything your lounge needs in one place",
+  "تسعير حسب عدد الأيدي":"Pricing by controller count","سعر مختلف لـ 1 / 2 / 3 / 4 يد، مع عدّاد وقت حي لكل جهاز.":"Different price for 1 / 2 / 3 / 4 controllers, with a live timer per device.",
+  "حدّد وقت للزبون، ولما يخلص يطلع صوت وتنبيه على الشاشة.":"Set a time for the customer; when it ends, a sound and on-screen alert appear.",
+  "كافيتيريا على الطاولة":"Cafeteria on the table","أضف مشروبات وسناكس على حساب الطاولة، وفاتورة واحدة بالنهاية.":"Add drinks and snacks to the table's bill, one invoice at the end.",
+  "نقل الجلسة بالسحب":"Move session by dragging","الزبون بدّل جهاز؟ اسحب الطاولة وارميها على الجهاز التاني.":"Customer switched devices? Drag the table onto the other device.",
+  "تقارير وأرباح":"Reports & profit","تقارير بأي فترة، تفصيل الدفع كاش/بطاقة، وتصدير Excel.":"Reports for any period, cash/card breakdown, and Excel export.",
+  "تحكم بالكهرباء":"Power control","يفتح ويغلق الجهاز تلقائيًا حسب الجلسة عبر كرت تحكم — وداعاً للتلاعب.":"Turns the device on/off automatically per session via a control board — no more tampering.",
+  "٣ لغات":"3 languages","عربي · تركي · إنجليزي — بضغطة زر حسب محلّك.":"Arabic · Turkish · English — one click per your shop.",
+  "صلاحيات المدير وحماية الصندوق":"Manager permissions & cash protection","صلاحيات مدير بكلمة سر، الكاشير ما يقدر يحذف أو يعدّل الأسعار.":"Password-protected manager; the cashier can't delete or change prices.",
+  "اطمئن قبل ما تدفع":"Peace of mind before you pay","بياناتك ومحلّك بأمان معنا":"Your data and shop are safe with us",
+  "بياناتك محفوظة":"Your data is saved","محفوظة على كمبيوترك أنت، مش على الإنترنت.":"Stored on your own computer, not on the internet.",
+  "نسخ احتياطي تلقائي":"Automatic backup","نسخة احتياطية يومية لكل بياناتك.":"A daily backup of all your data.",
+  "دعم واتساب":"WhatsApp support","نرد عليك ونساعدك بأي وقت.":"We reply and help you anytime.",
+  "يعمل على كمبيوتر الكاشير":"Runs on the cashier's PC","بدون إنترنت، بدون تعقيد.":"No internet, no hassle.",
+  "صلاحيات مدير وكاشير":"Manager & cashier roles","كل واحد يشوف اللي يخصّه فقط.":"Each one sees only what concerns them.",
+  "جرّب قبل ما تدفع":"Try before you pay","اطلب ديمو على واتساب ونوريك كل شي.":"Request a demo on WhatsApp and we'll show you everything.",
+  "الباقات والأسعار":"Packages & pricing","يبدأ من 50$ شهريًا — أو ما يعادلها بالليرة · الاشتراك السنوي يوفّر شهرين مجاناً":"Starts at $50/month — or its equivalent in lira · Yearly saves you 2 months free",
+  "شهري":"Monthly","٣ أشهر":"3 Months","سنوي":"Yearly",
+  "للمحل الصغير — يبدأ معك بأقل تكلفة.":"For small shops — start at the lowest cost.","للمحل المتوسط — توفير أكثر على ٣ أشهر.":"For medium shops — more savings over 3 months.","أفضل سعر — شهرين مجاناً بالاشتراك السنوي.":"Best price — 2 months free yearly.",
+  "الأوفر · شهرين مجاناً":"Best value · 2 months free","/ شهر · أو ما يعادلها بالليرة":"/ month · or its equivalent in lira","شهر مجاناً":"months free","اشترك":"Subscribe",
+  "اسأل عن السعر بالليرة اليوم":"Ask today's lira price","مش متأكد أي باقة؟ اسألنا":"Not sure which package? Ask us",
+  "مناسب لأي محل؟":"Which shop is it for?","إذا عندك أجهزة وزباين بتلعب بالوقت — ZONE X إلك":"If you have devices and customers who play by time — ZONE X is for you.",
+  "صالات بلايستيشن":"PlayStation lounges","صالات PC Gaming":"PC gaming lounges","كافيهات الألعاب":"Gaming cafés","صالات مختلطة":"Mixed lounges",
+  "الفرق واضح":"The difference is clear","شوف الفرق قبل وبعد ZONE X":"See the difference before and after ZONE X",
+  "بدون ZONE X":"Without ZONE X","حساب الوقت يدوي وأخطاء":"Manual time calc and errors","نسيان طلبات الكافيتيريا":"Forgetting cafeteria orders","ما تعرف ربحك الحقيقي":"You don't know your real profit","تلاعب الكاشير بالحساب":"Cashier tampering with the bill","كل شي على الدفتر":"Everything on paper",
+  "مع ZONE X":"With ZONE X","وقت تلقائي بالثانية":"Automatic time to the second","فاتورة موحّدة لعب + كافيتيريا":"Unified play + cafeteria bill","تقارير وأرباح لحظية":"Instant reports & profit","صلاحيات مدير وحماية الصندوق":"Manager roles & cash protection","تنبيه انتهاء الجلسة":"Session end alert",
+  "أسئلة شائعة":"FAQ","كل اللي بدك تعرفه قبل ما تشترك":"Everything you need before subscribing",
+  "هل يحتاج إنترنت؟":"Does it need internet?","لا. البرنامج يشتغل أوفلاين بالكامل على كمبيوتر الكاشير. الإنترنت يلزم فقط أول مرة للتفعيل.":"No. It runs fully offline on the cashier's PC. Internet is only needed once for activation.",
+  "هل يشتغل على كمبيوتر ضعيف؟":"Does it run on a weak PC?","نعم. خفيف جداً ويشتغل على أي كمبيوتر ويندوز عادي بدون مواصفات قوية.":"Yes. Very light and runs on any ordinary Windows PC without strong specs.",
+  "هل في نسخة تجريبية؟":"Is there a trial?","نعرضلك ديمو كامل على واتساب نوريك فيه كل شي قبل ما تدفع.":"We give you a full demo on WhatsApp showing everything before you pay.",
+  "هل البيانات تبقى عندي؟":"Does the data stay with me?","نعم، كل بياناتك محفوظة على جهازك أنت فقط، مع نسخة احتياطية يومية تلقائية.":"Yes, all your data is stored only on your device, with an automatic daily backup.",
+  "شو بصير إذا فرمت الكمبيوتر؟":"What if I format the PC?","ترجع تثبّت البرنامج وتفعّله بنفس كودك، وترجّع نسختك الاحتياطية. ننصح تحفظ نسخة احتياطية على فلاشة بين فترة وفترة.":"Reinstall and activate with the same code, then restore your backup. We recommend keeping a backup on a USB now and then.",
+  "هل الدعم مجاني؟":"Is support free?","نعم، الدعم الفني على واتساب مجاني طول فترة اشتراكك.":"Yes, WhatsApp technical support is free throughout your subscription.",
+  "هل في تدريب للكاشير؟":"Is there cashier training?","النظام سهل جداً، ومنشرحلك ولكاشيرك كل شي على واتساب خطوة بخطوة.":"The system is very easy; we explain everything to you and your cashier on WhatsApp step by step.",
+  "هل في نسخة لأكثر من فرع؟":"Is there a multi-branch version?","حالياً كل فرع له نظامه. إدارة عدة فروع من مكان واحد ميزة قادمة — تواصل معنا إذا عندك أكتر من فرع.":"Currently each branch has its own system. Managing multiple branches from one place is coming soon — contact us if you have more than one branch.",
+  "كيف تشترك؟":"How to subscribe?","٣ خطوات وبتصير صالتك جاهزة":"3 steps and your lounge is ready",
+  "سجّل محلّك":"Register your shop","اكتب اسم المحل واختر الباقة.":"Enter the shop name and choose a package.",
+  "حوّل وارفع الإيصال":"Transfer and upload the receipt","شام كاش أو Kuwait Türk، وارفع صورة الحوالة.":"ShamCash or Kuwait Türk, upload the transfer image.",
+  "نفعّلك ونعطيك الكود":"We activate you and give the code","بعد التأكد، نبعتلك كود التفعيل ويفتح النظام.":"After confirmation, we send the activation code and the system opens."
+ }
+};
+
+// تقسيم النص لـ [رموز بداية, نص, رموز نهاية] حتى ما نكسر الإيموجي
+function isSym(ch){const c=ch.codePointAt(0);return c>=0x1F000||(c>=0x2190&&c<=0x2BFF)||ch===' '||ch===' ';}
+function splitNode(s){let i=0,j=s.length;while(i<j&&isSym(s[i]))i++;while(j>i&&isSym(s[j-1]))j--;return[s.slice(0,i),s.slice(i,j),s.slice(j)];}
+
+function walk(node,map){
+  if(node.nodeType===3){
+    const raw=node.nodeValue;const t=raw.trim();
+    if(!t)return;
+    if(map[t]!==undefined){node.nodeValue=raw.replace(t,map[t]);return;}
+    const[lead,core,trail]=splitNode(t);
+    if(core&&map[core]!==undefined){node.nodeValue=raw.replace(t,lead+map[core]+trail);}
+    return;
+  }
+  if(node.nodeType===1){
+    const tag=node.tagName;
+    if(tag==='SCRIPT'||tag==='STYLE'||tag==='SELECT'||tag==='OPTION')return;
+    node.childNodes.forEach(c=>walk(c,map));
+  }
+}
+
+let _orig=null;
+function setLang(lang){
+  localStorage.setItem('zx_lang',lang);
+  const sel=document.getElementById('langSel');if(sel)sel.value=lang;
+  if(_orig===null)_orig=document.body.cloneNode(true);
+  if(lang==='ar'){location.reload();return;}
+  // ابدأ من النسخة العربية الأصلية ثم ترجم
+  const map=I18N[lang];if(!map)return;
+  walk(document.body,map);
+  document.documentElement.lang=lang;
+  document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
+}
+
+(function(){
+  const saved=localStorage.getItem('zx_lang')||'ar';
+  const sel=document.getElementById('langSel');if(sel)sel.value=saved;
+  if(saved!=='ar'){
+    const map=I18N[saved];
+    if(map){walk(document.body,map);document.documentElement.lang=saved;document.documentElement.dir='ltr';}
+  }
+})();
+</script>
 </body>
 </html>

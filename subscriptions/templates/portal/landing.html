@@ -144,9 +144,9 @@
       <h3 style="font-size:20px;margin:2px 0 4px">{{ p.label }}</h3>
       <p style="color:var(--muted);font-size:12px;min-height:34px;margin-bottom:6px">{{ p.desc }}</p>
       <div style="font-family:var(--mono);font-size:42px;font-weight:800;color:{% if p.highlight %}var(--green){% else %}var(--cyan){% endif %}">${{ p.price }}</div>
-      <div style="color:var(--muted);font-size:13px;margin-bottom:6px">≈ ${{ p.monthly_equiv }} / شهر · أو ما يعادلها بالليرة</div>
-      {% if p.free_months %}<div style="color:var(--green);font-size:13px;font-weight:700;margin-bottom:14px">+ {{ p.free_months }} شهر مجاناً</div>{% else %}<div style="height:14px"></div>{% endif %}
-      <a href="{% url 'signup' %}?plan={{ p.key }}" class="btn {% if p.highlight %}btn-green{% else %}btn-primary{% endif %}" style="width:100%">اشترك</a>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:6px">≈ ${{ p.monthly_equiv }} <span data-i18n>/ شهر · أو ما يعادلها بالليرة</span></div>
+      {% if p.free_months %}<div style="color:var(--green);font-size:13px;font-weight:700;margin-bottom:14px">+ {{ p.free_months }} <span data-i18n>شهر مجاناً</span></div>{% else %}<div style="height:14px"></div>{% endif %}
+      <a href="{% url 'signup' %}?plan={{ p.key }}" class="btn {% if p.highlight %}btn-green{% else %}btn-primary{% endif %}" style="width:100%"><span data-i18n>اشترك</span></a>
     </div>
     {% endfor %}
   </div>
