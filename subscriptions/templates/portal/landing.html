@@ -1,4 +1,5 @@
 {% extends 'portal/base.html' %}
+{% load static %}
 {% block content %}
 
 <!-- HERO -->
@@ -37,70 +38,58 @@
 <section style="padding:34px 0 20px">
   <h2 class="section-title">شوف النظام خلال 30 ثانية</h2>
   <p class="section-sub">جولة سريعة على الشاشات اللي بيشتغل عليها الكاشير</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
-
-    <!-- الطاولات -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="background:rgba(0,242,255,.06);padding:11px 16px;font-weight:800;font-size:14px;color:var(--cyan);border-bottom:1px solid rgba(255,255,255,.07)"><i class="ti ti-layout-grid"></i> شاشة الطاولات</div>
-      <div style="padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-        <div style="background:rgba(57,255,20,.10);border:1px solid rgba(57,255,20,.3);border-radius:10px;padding:10px 4px;text-align:center"><div style="font-size:18px">🎮</div><div style="font-size:11px;font-weight:700">MASA-01</div><div style="font-size:10px;color:var(--green)">شاغرة</div></div>
-        <div style="background:rgba(255,183,0,.10);border:1px solid rgba(255,183,0,.3);border-radius:10px;padding:10px 4px;text-align:center"><div style="font-size:18px">🎮</div><div style="font-size:11px;font-weight:700">MASA-02</div><div style="font-size:10px;color:var(--amber);font-family:var(--mono)">00:42</div></div>
-        <div style="background:rgba(255,183,0,.10);border:1px solid rgba(255,183,0,.3);border-radius:10px;padding:10px 4px;text-align:center"><div style="font-size:18px">💻</div><div style="font-size:11px;font-weight:700">PC-01</div><div style="font-size:10px;color:var(--amber);font-family:var(--mono)">01:15</div></div>
-      </div>
+  <div class="carousel" id="carousel">
+    <div class="track" id="track">
+      <figure class="slide"><img src="{% static 'portal/screens/01.jpg' %}" alt="أدِر صالتك من شاشة واحدة"><figcaption>أدِر صالتك من شاشة واحدة</figcaption></figure>
+      <figure class="slide"><img src="{% static 'portal/screens/02.jpg' %}" alt="افتح طاولة بضغطة" loading="lazy"><figcaption>افتح طاولة بضغطة — والوقت يُحسب تلقائياً</figcaption></figure>
+      <figure class="slide"><img src="{% static 'portal/screens/03.jpg' %}" alt="طلبات الكافيتيريا على حساب الطاولة" loading="lazy"><figcaption>أضف طلبات الكافيتيريا على حساب الطاولة</figcaption></figure>
+      <figure class="slide"><img src="{% static 'portal/screens/04.jpg' %}" alt="تنبيه انتهاء وقت الزبون" loading="lazy"><figcaption>تنبيه تلقائي لما يخلص وقت الزبون</figcaption></figure>
+      <figure class="slide"><img src="{% static 'portal/screens/05.jpg' %}" alt="فاتورة موحّدة وطباعة إيصال" loading="lazy"><figcaption>فاتورة موحّدة + طباعة إيصال</figcaption></figure>
+      <figure class="slide"><img src="{% static 'portal/screens/06.jpg' %}" alt="تقارير وأرباح بيد المدير" loading="lazy"><figcaption>تقارير وأرباح وصافي الربح — بيد المدير</figcaption></figure>
     </div>
+    <button class="nav prev" onclick="slideBy(-1)" aria-label="السابق"><i class="ti ti-chevron-right"></i></button>
+    <button class="nav next" onclick="slideBy(1)" aria-label="التالي"><i class="ti ti-chevron-left"></i></button>
+  </div>
+  <div class="dots" id="dots"></div>
 
-    <!-- الكاشير -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="background:rgba(0,242,255,.06);padding:11px 16px;font-weight:800;font-size:14px;color:var(--cyan);border-bottom:1px solid rgba(255,255,255,.07)"><i class="ti ti-cash-register"></i> شاشة الكاشير</div>
-      <div style="padding:16px;font-size:13px">
-        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.08)"><span>لعب · 1:15 ساعة</span><span style="font-family:var(--mono)">₺ 90</span></div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.08)"><span>☕ قهوة × 2</span><span style="font-family:var(--mono)">₺ 40</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;color:var(--green);font-weight:800"><span>الإجمالي</span><span style="font-family:var(--mono)">₺ 130</span></div>
-      </div>
-    </div>
-
-    <!-- تنبيه الوقت -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="background:rgba(0,242,255,.06);padding:11px 16px;font-weight:800;font-size:14px;color:var(--cyan);border-bottom:1px solid rgba(255,255,255,.07)"><i class="ti ti-alarm"></i> تنبيه انتهاء الوقت</div>
-      <div style="padding:22px 16px;text-align:center">
-        <div style="font-size:30px">⏰</div>
-        <div style="font-weight:800;color:var(--red);margin:8px 0 4px">انتهى وقت MASA-02</div>
-        <div style="color:var(--muted);font-size:12px">صوت تنبيه + تمييز الطاولة بالأحمر تلقائياً</div>
-      </div>
-    </div>
-
-    <!-- الفاتورة -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="background:rgba(0,242,255,.06);padding:11px 16px;font-weight:800;font-size:14px;color:var(--cyan);border-bottom:1px solid rgba(255,255,255,.07)"><i class="ti ti-receipt"></i> الفاتورة الموحّدة</div>
-      <div style="padding:16px;font-size:12px;font-family:var(--mono);color:var(--muted);text-align:center;line-height:2">
-        ZONE X<br>— — — — — —<br>لعب + كافيتيريا<br><span style="color:var(--green)">المجموع: ₺ 130</span><br>شكراً لزيارتكم
-      </div>
-    </div>
-
-    <!-- التقارير -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="background:rgba(0,242,255,.06);padding:11px 16px;font-weight:800;font-size:14px;color:var(--cyan);border-bottom:1px solid rgba(255,255,255,.07)"><i class="ti ti-chart-bar"></i> التقارير اليومية</div>
-      <div style="padding:16px">
-        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span>إيراد اليوم</span><b style="color:var(--green);font-family:var(--mono)">₺ 2,450</b></div>
-        <div style="display:flex;align-items:flex-end;gap:5px;height:54px">
-          <div style="flex:1;background:var(--cyan);height:40%;border-radius:4px"></div>
-          <div style="flex:1;background:var(--cyan);height:65%;border-radius:4px"></div>
-          <div style="flex:1;background:var(--cyan);height:50%;border-radius:4px"></div>
-          <div style="flex:1;background:var(--green);height:90%;border-radius:4px"></div>
-          <div style="flex:1;background:var(--cyan);height:70%;border-radius:4px"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CTA داخل القسم -->
-    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;border-color:rgba(57,255,20,.3)">
-      <div style="font-size:26px">👀</div>
-      <div style="font-weight:800;font-size:15px">بدك تشوفه شغّال على الحقيقي؟</div>
-      <a href="https://wa.me/{{ whatsapp }}?text=مرحبا،%20بدي%20ديمو%20ZONE%20X" target="_blank" class="btn btn-green" style="width:100%"><i class="ti ti-brand-whatsapp"></i> اطلب ديمو واتساب</a>
-    </div>
-
+  <div style="text-align:center;margin-top:20px">
+    <a href="https://wa.me/{{ whatsapp }}?text=مرحبا،%20بدي%20ديمو%20ZONE%20X" target="_blank" class="btn btn-green" style="height:48px;font-size:15px"><i class="ti ti-brand-whatsapp"></i> بدك تشوفه شغّال؟ اطلب ديمو واتساب</a>
   </div>
 </section>
+
+<style>
+  .carousel{position:relative;max-width:920px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid rgba(0,242,255,.18);background:#0a0d18;box-shadow:0 10px 40px rgba(0,0,0,.4);direction:ltr}
+  .track{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+  .slide{flex:0 0 100%;margin:0}
+  .slide img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+  .slide figcaption{position:absolute;bottom:0;right:0;left:0;padding:30px 18px 14px;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.85));text-align:center}
+  .carousel .nav{position:absolute;top:42%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;z-index:3}
+  .carousel .nav:hover{background:var(--cyan);color:#021}
+  .carousel .prev{right:12px}
+  .carousel .next{left:12px}
+  .dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
+  .dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:.15s}
+  .dots span.on{background:var(--cyan);width:26px;border-radius:6px}
+  @media (max-width:640px){.carousel .nav{width:36px;height:36px;font-size:18px}.slide figcaption{font-size:13px}}
+</style>
+
+<script>
+(function(){
+  var track=document.getElementById('track'), dotsBox=document.getElementById('dots');
+  if(!track)return;
+  var n=track.children.length, i=0, timer;
+  for(var d=0;d<n;d++){(function(k){var s=document.createElement('span');s.onclick=function(){go(k)};dotsBox.appendChild(s);})(d);}
+  function render(){track.style.transform='translateX('+(-i*100)+'%)';
+    Array.prototype.forEach.call(dotsBox.children,function(el,k){el.className=k===i?'on':''});}
+  window.slideBy=function(dir){i=(i+dir+n)%n;render();reset();}
+  function go(k){i=k;render();reset();}
+  function reset(){clearInterval(timer);timer=setInterval(function(){window.slideBy(1)},4500);}
+  render();reset();
+  var c=document.getElementById('carousel');
+  c.addEventListener('mouseenter',function(){clearInterval(timer)});
+  c.addEventListener('mouseleave',reset);
+})();
+</script>
 
 <!-- FEATURES -->
 <section style="padding:30px 0">
