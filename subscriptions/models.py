@@ -9,9 +9,9 @@ from .licensekey import generate_license_key
 
 # ── الباقات: المدة بالأيام + السعر بالدولار ──
 PLANS = {
-    'monthly':   {'label': 'شهري',        'days': 30,  'price': 50,  'months': 1},
-    'quarterly': {'label': '٣ أشهر',      'days': 90,  'price': 135, 'months': 3},
-    'yearly':    {'label': 'سنوي',        'days': 365, 'price': 500, 'months': 12},
+    'monthly':   {'label': 'شهري',        'days': 30,  'price': 15,  'months': 1},
+    'quarterly': {'label': '٣ أشهر',      'days': 90,  'price': 35,  'months': 3},
+    'yearly':    {'label': 'سنوي',        'days': 365, 'price': 150, 'months': 12},
 }
 
 PLAN_CHOICES = [(k, v['label']) for k, v in PLANS.items()]
