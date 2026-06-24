@@ -343,7 +343,7 @@ def manage(request):
 
 
 # نسخة البرنامج الأحدث — ارفعها مع كل إصدار جديد
-LATEST_APP_VERSION = "1.1.0"
+LATEST_APP_VERSION = "1.1.1"
 
 
 def app_version(request):
