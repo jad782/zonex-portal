@@ -14,7 +14,7 @@
     حاسب وقت اللعب، أضف طلبات الكافيتيريا، اطبع فاتورة موحّدة، وراقب أرباحك اليومية — حتى بدون إنترنت.
   </p>
   <p style="color:var(--green);font-size:15px;font-weight:700;margin-bottom:28px">
-    يبدأ من 15$ شهريًا — الدفع بالليرة السورية / التركية حسب سعر اليوم
+    أسعار مرنة بالدولار أو الليرة السورية / التركية — استفسر على واتساب
   </p>
   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
     <a href="https://wa.me/{{ whatsapp }}?text=مرحبا،%20بدي%20أشوف%20ديمو%20ZONE%20X" target="_blank" class="btn btn-green" style="height:52px;font-size:16px"><i class="ti ti-brand-whatsapp"></i> جرّب الديمو الآن</a>
@@ -128,25 +128,22 @@
 
 <!-- PRICING -->
 <section id="pricing" style="padding:50px 0 20px">
-  <h2 class="section-title">الباقات والأسعار</h2>
-  <p class="section-sub">يبدأ من 15$ شهريًا — أو ما يعادلها بالليرة · الاشتراك السنوي يوفّر شهرين مجاناً 🎁</p>
+  <h2 class="section-title">الباقات</h2>
+  <p class="section-sub">اختر الباقة المناسبة لمحلّك — واستفسر عن السعر على واتساب · الاشتراك السنوي يوفّر شهرين مجاناً 🎁</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:900px;margin:0 auto">
     {% for p in plans %}
     <div class="card" style="position:relative;text-align:center;{% if p.highlight %}border-color:var(--green);box-shadow:0 0 30px rgba(57,255,20,.15){% endif %}">
       {% if p.highlight %}<div style="position:absolute;top:-13px;right:50%;transform:translateX(50%);background:var(--green);color:#021;font-weight:800;font-size:12px;padding:4px 14px;border-radius:20px;white-space:nowrap">الأوفر · شهرين مجاناً</div>{% endif %}
       <div style="font-family:var(--mono);font-size:13px;letter-spacing:1px;color:{% if p.highlight %}var(--green){% else %}var(--cyan){% endif %};font-weight:800">{{ p.tier }}</div>
-      <h3 style="font-size:20px;margin:2px 0 4px">{{ p.label }}</h3>
-      <p style="color:var(--muted);font-size:12px;min-height:34px;margin-bottom:6px">{{ p.desc }}</p>
-      <div style="font-family:var(--mono);font-size:42px;font-weight:800;color:{% if p.highlight %}var(--green){% else %}var(--cyan){% endif %}">${{ p.price }}</div>
-      <div style="color:var(--muted);font-size:13px;margin-bottom:6px">≈ ${{ p.monthly_equiv }} <span data-i18n>/ شهر · أو ما يعادلها بالليرة</span></div>
-      {% if p.free_months %}<div style="color:var(--green);font-size:13px;font-weight:700;margin-bottom:14px">+ {{ p.free_months }} <span data-i18n>شهر مجاناً</span></div>{% else %}<div style="height:14px"></div>{% endif %}
-      <a href="{% url 'signup' %}?plan={{ p.key }}" class="btn {% if p.highlight %}btn-green{% else %}btn-primary{% endif %}" style="width:100%"><span data-i18n>اشترك</span></a>
+      <h3 style="font-size:22px;margin:4px 0 8px">{{ p.label }}</h3>
+      <p style="color:var(--muted);font-size:13px;min-height:46px;margin-bottom:14px">{{ p.desc }}</p>
+      {% if p.free_months %}<div style="color:var(--green);font-size:13px;font-weight:700;margin-bottom:14px">🎁 + {{ p.free_months }} <span data-i18n>شهر مجاناً</span></div>{% else %}<div style="height:14px"></div>{% endif %}
+      <a href="https://wa.me/{{ whatsapp }}?text=مرحبا،%20بدي%20استفسر%20عن%20باقة%20{{ p.label|urlencode }}%20في%20ZONE%20X%20والسعر" target="_blank" class="btn {% if p.highlight %}btn-green{% else %}btn-primary{% endif %}" style="width:100%"><i class="ti ti-brand-whatsapp"></i> <span data-i18n>استفسر عن السعر</span></a>
     </div>
     {% endfor %}
   </div>
-  <div style="text-align:center;margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-    <a href="https://wa.me/{{ whatsapp }}?text=مرحبا،%20كم%20السعر%20بالليرة%20اليوم؟" target="_blank" class="btn btn-ghost"><i class="ti ti-coin"></i> اسأل عن السعر بالليرة اليوم</a>
-    <a href="https://wa.me/{{ whatsapp }}?text=مرحبا،%20بدي%20استشارة%20عن%20باقات%20ZONE%20X" target="_blank" class="btn btn-ghost"><i class="ti ti-brand-whatsapp"></i> مش متأكد أي باقة؟ اسألنا</a>
+  <div style="text-align:center;margin-top:18px">
+    <a href="https://wa.me/{{ whatsapp }}?text=مرحبا،%20بدي%20استشارة%20عن%20باقات%20ZONE%20X%20والأسعار" target="_blank" class="btn btn-ghost"><i class="ti ti-brand-whatsapp"></i> <span data-i18n>مش متأكد أي باقة؟ اسألنا</span></a>
   </div>
 </section>
 
