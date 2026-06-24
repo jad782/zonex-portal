@@ -309,6 +309,11 @@ def manage_logout(request):
 @login_required(login_url='manage_login')
 @user_passes_test(_is_staff, login_url='manage_login')
 def manage(request):
+    from django.utils import timezone as _tz
+    from datetime import timedelta as _td
+    today = _tz.localdate()
+    soon = today + _td(days=7)
+
     flt = request.GET.get('f', 'review')
     qs = Subscription.objects.all()
     if flt == 'review':
@@ -317,18 +322,35 @@ def manage(request):
         qs = qs.filter(status='pending')
     elif flt == 'approved':
         qs = qs.filter(status='approved')
+    elif flt == 'expiring':
+        qs = qs.filter(status='approved', expires_at__gte=today, expires_at__lte=soon)
     qs = qs.order_by('-created_at')
 
     counts = {
         'review': Subscription.objects.filter(status='submitted').count(),
         'pending': Subscription.objects.filter(status='pending').count(),
         'approved': Subscription.objects.filter(status='approved').count(),
+        'expiring': Subscription.objects.filter(
+            status='approved', expires_at__gte=today, expires_at__lte=soon).count(),
         'all': Subscription.objects.count(),
     }
     return render(request, 'portal/manage.html', {
         'subs': qs,
         'filter': flt,
         'counts': counts,
+        'today': today,
+    })
+
+
+# نسخة البرنامج الأحدث — ارفعها مع كل إصدار جديد
+LATEST_APP_VERSION = "1.1.0"
+
+
+def app_version(request):
+    """يخبر البرنامج بأحدث إصدار متوفّر ورابط التحميل (للتحديث التلقائي)."""
+    return JsonResponse({
+        'version': LATEST_APP_VERSION,
+        'url': 'https://zonexsys.com/download/',
     })
 
 

@@ -35,6 +35,12 @@ endblock %} {% block content %}
     >✅ مُفعّل ({{ counts.approved }})</a
   >
   <a
+    href="?f=expiring"
+    class="btn {% if filter == 'expiring' %}btn-primary{% else %}btn-ghost{% endif %}"
+    style="{% if counts.expiring %}color:var(--amber){% endif %}"
+    >⏰ بتخلص قريباً ({{ counts.expiring }})</a
+  >
+  <a
     href="?f=all"
     class="btn {% if filter == 'all' %}btn-primary{% else %}btn-ghost{% endif %}"
     >الكل ({{ counts.all }})</a
