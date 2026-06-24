@@ -55,6 +55,8 @@ class Subscription(models.Model):
     license_key = models.CharField(max_length=60, blank=True, null=True, verbose_name="كود التفعيل")
     expires_at = models.DateField(blank=True, null=True, verbose_name="تاريخ الانتهاء")
 
+    machine_id = models.CharField(max_length=128, blank=True, null=True, verbose_name="معرّف الجهاز المربوط")
+
     admin_note = models.CharField(max_length=255, blank=True, null=True, verbose_name="ملاحظة الإدارة")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاريخ الطلب")
     approved_at = models.DateTimeField(blank=True, null=True, verbose_name="تاريخ التفعيل")

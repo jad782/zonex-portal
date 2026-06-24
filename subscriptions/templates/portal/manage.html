@@ -157,6 +157,20 @@ endblock %} {% block content %}
         class="btn btn-ghost"
         >عرض</a
       >
+      {% if s.status == 'approved' %}
+      <div style="font-size: 11px; color: var(--muted); text-align: center">
+        الجهاز:
+        {% if s.machine_id %}<span style="color: var(--green)">🔒 مربوط</span>{% else %}<span style="color: var(--amber)">⚪ غير مربوط</span>{% endif %}
+      </div>
+      <button
+        class="btn btn-ghost"
+        style="font-size: 11px"
+        onclick="resetMachine({{ s.id }})"
+        title="لو خربت شاشة الزبون — يسمح بالتفعيل على جهاز جديد"
+      >
+        <i class="ti ti-device-desktop-x"></i> إعادة تعيين الجهاز
+      </button>
+      {% endif %}
       {% endif %}
     </div>
   </div>
@@ -216,6 +230,14 @@ endblock %} {% block content %}
   }
   function copyKey(k) {
     navigator.clipboard.writeText(k).then(() => alert("تم نسخ الكود: " + k));
+  }
+  function resetMachine(id) {
+    if (!confirm("إعادة تعيين الجهاز؟ سيُسمح للزبون بتفعيل اشتراكه على جهاز جديد."))
+      return;
+    post("/manage/reset-machine/" + id + "/").then((d) => {
+      if (d.status === "success") alert("تمت إعادة التعيين — يقدر الزبون يفعّل على جهاز جديد.");
+      else alert("صار خطأ");
+    });
   }
 </script>
 {% endblock %}

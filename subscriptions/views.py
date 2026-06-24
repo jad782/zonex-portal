@@ -174,6 +174,77 @@ def store_config(request):
     })
 
 
+def license_status(request):
+    """يرجّع حالة الاشتراك للبرنامج المحلي (هل ما زال مفعّلاً؟).
+    يُستخدم للإيقاف عن بُعد: لو صار 'rejected' أو منتهي → active=False فيتقفل البرنامج."""
+    from .licensekey import normalize_customer_name
+    from django.utils import timezone as _tz
+    store = (request.GET.get('store_name') or '').strip()
+    key = (request.GET.get('license_key') or '').strip().upper()
+
+    if not store or not key:
+        return JsonResponse({'ok': False, 'error': 'missing'}, status=400)
+
+    sub = Subscription.objects.filter(license_key=key).first()
+    if not sub or normalize_customer_name(sub.store_name) != normalize_customer_name(store):
+        # كود غير معروف بالموقع — لا نتدخّل (الكود موقّع محلياً)
+        return JsonResponse({'ok': False, 'unknown': True})
+
+    not_expired = (sub.expires_at is None) or (sub.expires_at >= _tz.localdate())
+    active = (sub.status == 'approved') and not_expired
+
+    return JsonResponse({
+        'ok': True,
+        'status': sub.status,
+        'active': active,
+        'expires_at': str(sub.expires_at) if sub.expires_at else '',
+    })
+
+
+@require_POST
+def claim_machine(request):
+    """يربط الاشتراك بجهاز واحد. أول تفعيل يثبّت معرّف الجهاز.
+    أي جهاز آخر بنفس الكود → ok=False, error='bound_other' (إلا بعد إعادة التعيين من الإدارة)."""
+    from .licensekey import normalize_customer_name
+    try:
+        import json as _json
+        data = _json.loads(request.body.decode('utf-8') or '{}')
+    except Exception:
+        data = {}
+
+    store = (data.get('store_name') or '').strip()
+    key = (data.get('license_key') or '').strip().upper()
+    machine = (data.get('machine_id') or '').strip()
+
+    if not store or not key or not machine:
+        return JsonResponse({'ok': False, 'error': 'missing'}, status=400)
+
+    sub = Subscription.objects.filter(license_key=key, status='approved').first()
+    if not sub or normalize_customer_name(sub.store_name) != normalize_customer_name(store):
+        # الكود غير معروف بالموقع — لا نمنع (الكود موقّع محلياً)، نسمح
+        return JsonResponse({'ok': True, 'unknown': True})
+
+    if not sub.machine_id:
+        sub.machine_id = machine
+        sub.save(update_fields=['machine_id'])
+        return JsonResponse({'ok': True, 'bound': True})
+
+    if sub.machine_id == machine:
+        return JsonResponse({'ok': True})
+
+    return JsonResponse({'ok': False, 'error': 'bound_other'})
+
+
+@require_POST
+@user_passes_test(lambda u: u.is_staff)
+def api_reset_machine(request, sub_id):
+    """إعادة تعيين الجهاز المربوط (لو خربت شاشة الزبون) — للإدارة فقط."""
+    sub = get_object_or_404(Subscription, id=sub_id)
+    sub.machine_id = None
+    sub.save(update_fields=['machine_id'])
+    return JsonResponse({'status': 'success'})
+
+
 def download_app(request):
     """تحميل برنامج ZONE X.
     1) إذا في رابط خارجي (Google Drive) محدّد بـ .env → يحوّل إليه.
